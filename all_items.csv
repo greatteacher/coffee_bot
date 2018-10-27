@@ -1,0 +1,15 @@
+id;items_name;price;description;appointment
+1;Hot chocolate;57;cacao with marshmellow;drinks
+2;Esepresso;57;just black coffee, stronger Americano;drinks
+3;Americano;57;just black coffee, less stronger Espresso;drinks
+4;Cappuccino;67;coffee with milk;drinks
+5;Latte;67;coffee with lots of milk;drinks
+6;Raf coffee;77;coffee with cream and vanilla;drinks
+7;Glace;87;coffee with spoon of icecream;drinks
+8;штрудель;43;штрудель;sweets
+9;творожное_кольцо;23;творожное_кольцо;sweets
+10;чизкейк;43;чизкейк;sweets
+11;трубочки;33;трубочки;sweets
+12;брауни;33;брауни;sweets
+13;капкейк;23;капкейк;sweets
+14;штрудель;33;штрудель;sweets
