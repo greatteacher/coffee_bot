@@ -188,6 +188,14 @@ conversation = ConversationHandler(
             MessageHandler(Filters.text, check_name_input_handler, pass_user_data=True)
         ],
 
+        'sweet_of_day_state': [
+        RegexHandler('^(Вчера)$', Send_yesterdays_menu , pass_user_data=True),
+        RegexHandler('^(Завтра)$', Send_tomorrows_menu, pass_user_data=True),
+        RegexHandler('^(Послезавтра)$', Send_day_after_tomorrow_menu, pass_user_data=True),
+        RegexHandler('^(через 3 дня)$', Send_in_three_menu, pass_user_data=True),
+        RegexHandler('^(Добавить в корзину)$', end_handler, pass_user_data=True)
+        ],
+
         'end': [
             MessageHandler(Filters.text, end_handler, pass_user_data=True)
         ]
