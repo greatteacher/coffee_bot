@@ -1,3 +1,5 @@
+from datetime import datetime, date, time
+
 from glob import glob
 import re
 
@@ -11,6 +13,27 @@ coffee_main_menu_markup = ReplyKeyboardMarkup([['Menu_button'],
 
 from settings import ADMIN_ID, ADMIN_EMAIL
 from utils import send_mail
+
+
+def Send_todays_menu(bot, update, user_data):
+    date_day = datetime.now()
+    weekday=date_day.strftime('%A  %d  %B  %Y')
+    dtoday=datetime(2018,8,8)
+    yestd=datetime(2018,8,9)
+    daltaday=dtoday-yestd
+    yesterday = (date_day+daltaday).strftime('%A ')
+
+    update.message.reply_text('yesterday was  ' + yesterday )
+    update.message.reply_text('Today is' + weekday)
+    tomorrow = (date_day-daltaday).strftime('%A')
+    # tmr = (date_day-daltaday).strftime('%w')
+    day_after_tmr = (date_day-daltaday-daltaday).strftime('%A ')
+    in_three = (date_day-3*daltaday).strftime('%A  ')
+
+    update.message.reply_text('Tomorrow will be  ' + tomorrow )
+    update.message.reply_text('Day after tomorrow will be  ' + day_after_tmr )
+    update.message.reply_text('in three days will be  ' + in_three )
+    return 'end'    
 
 
 def coffee_main_menu_handler(bot, update, user_data):
@@ -204,6 +227,7 @@ def send_Glase_description(bot, update, user_data):
     update.message.reply_text( 'coffee with spoon of ice-cream',
         reply_markup = coffee_main_menu)
     return 'end'
+
 
 def contact_info_handler(bot, update, user_data):
     update.message.reply_text('This is contact info button')

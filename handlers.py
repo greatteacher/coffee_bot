@@ -141,7 +141,7 @@ conversation = ConversationHandler(
         ],
         'cafe_menu_state': [
             RegexHandler('^(Кофеёк)$', coffee_category_handler, pass_user_data=True),
-            RegexHandler('^(Плюшки)$', sweets_category_handler, pass_user_data=True),
+            RegexHandler('^(Плюшки)$', Send_todays_menu, pass_user_data=True),
             RegexHandler('^(Прочее)$', other_category_handler, pass_user_data=True),
             RegexHandler('^(Назад)$', back_cafe_menu, pass_user_data=True)
         ],
