@@ -14,18 +14,19 @@ coffee_main_menu_markup = ReplyKeyboardMarkup([['Menu_button'],
 											  ['Contact_info']])
 
 bakery_main_menu_markup = ReplyKeyboardMarkup([['Добавить в корзину'],
-												['Вчера'], ['Завтра'],
-												['Послезавтра'],
-												['через 3 дня']
+												['Вчера','Послезавтра'],
+												['Завтра','Через 3 дня']
 												])
+
 
 from settings import ADMIN_ID, ADMIN_EMAIL
 from settings import weekday, dtoday, yestd, daltaday, yesterday, tomorrow, day_after_tmr, in_three
 from utils import send_mail
 
+for sweet in Sweets.query.filter(Sweets.day_week==weekday).all():
+	bakery = sweet.items_name
+
 def Send_todays_menu(bot, update, user_data):
-	for sweet in Sweets.query.filter(Sweets.day_week==weekday).all():
-		bakery = sweet.items_name
 	update.message.reply_text('Today is ' + bakery + '! Вы можете Добавить в корзину или посмотреть на будущее, или что уже упустили',
 							  reply_markup = bakery_main_menu_markup )
 	return 'sweet_of_day_state'    
@@ -260,3 +261,9 @@ def back_cafe_menu(bot, update, user_data):
 	print(user_data[update.message.from_user['id']]) # печатает в командной строке кто и что заказал.
 	return 'cafe_main_menu_state'  #(Menu_button)$','^(Special_offers)$' корзина контактная инфа
 
+def add_backery_to_cart_handler(bot, update, user_data):
+	update.message.reply_text(f'закусочка  {bakery} добавлен в корзину')
+	return 'sweet_of_day_state' 
+	# coffee_index = update.message.text
+	# user_data[update.message.from_user['id']]['cart'].append(coffee_index)
+	# update.message.reply_text(f'Кофеёк №{coffee_index} добавлен в корзину')

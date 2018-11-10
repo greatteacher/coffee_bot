@@ -192,8 +192,8 @@ conversation = ConversationHandler(
         RegexHandler('^(Вчера)$', Send_yesterdays_menu , pass_user_data=True),
         RegexHandler('^(Завтра)$', Send_tomorrows_menu, pass_user_data=True),
         RegexHandler('^(Послезавтра)$', Send_day_after_tomorrow_menu, pass_user_data=True),
-        RegexHandler('^(через 3 дня)$', Send_in_three_menu, pass_user_data=True),
-        RegexHandler('^(Добавить в корзину)$', end_handler, pass_user_data=True)
+        RegexHandler('^(Через 3 дня)$', Send_in_three_menu, pass_user_data=True),
+        RegexHandler('^(Добавить в корзину)$', add_backery_to_cart_handler, pass_user_data=True)
         ],
 
         'end': [
