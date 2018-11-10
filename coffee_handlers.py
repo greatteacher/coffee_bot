@@ -13,24 +13,26 @@ coffee_main_menu_markup = ReplyKeyboardMarkup([['Menu_button'],
 											  ['Checkout'],
 											  ['Contact_info']])
 
+bakery_main_menu_markup = ReplyKeyboardMarkup([['Добавить в корзину'],
+												['Вчера'], ['Завтра'],
+												['Послезавтра'],
+												['через 3 дня']
+												])
+
 from settings import ADMIN_ID, ADMIN_EMAIL
 from settings import weekday, dtoday, yestd, daltaday, yesterday, tomorrow, day_after_tmr, in_three
 from utils import send_mail
 
-
 def Send_todays_menu(bot, update, user_data):
-	update.message.reply_text('Today is' + weekday + 'Вы можете Добавить в корзину или посмотреть на будущее',
-							  reply_markup=ReplyKeyboardMarkup([['Вчера'],
-																['Завтра'],
-																['Послезавтра'],
-																['через 3 дня'],
-																['Добавить в корзину']]))
+	for sweet in Sweets.query.filter(Sweets.day_week==weekday).all():
+		bakery = sweet.items_name
+	update.message.reply_text('Today is ' + bakery + '! Вы можете Добавить в корзину или посмотреть на будущее, или что уже упустили',
+							  reply_markup = bakery_main_menu_markup )
 	return 'sweet_of_day_state'    
 
 def Send_tomorrows_menu(bot, update, user_data):
 	update.message.reply_text('Tomorrow will be  ' + tomorrow )
 	return 'sweet_of_day_state'    
-
 def Send_day_after_tomorrow_menu(bot, update, user_data):
 	update.message.reply_text('Day after tomorrow will be  ' + day_after_tmr )
 	return 'sweet_of_day_state' 
@@ -40,7 +42,6 @@ def Send_in_three_menu(bot, update, user_data):
 def Send_yesterdays_menu(bot, update, user_data):
 	update.message.reply_text('yesterday was  ' + yesterday )
 	return 'sweet_of_day_state' 
-
 
 
 def coffee_main_menu_handler(bot, update, user_data):
