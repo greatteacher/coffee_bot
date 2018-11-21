@@ -7,7 +7,7 @@ from coffee_handlers import *
 
 
 def start_handler(bot, update, user_data):
-    update.message.reply_text('Привет, я бот, который поможет\nтебе заказать пиццу или выпить кофе!\n'+
+    update.message.reply_text('Привет, я бот, который поможет\nтебе заказать пиццу или кофеёк с плюшками!\n'+
         'Выбери опцию, нажав одну из кнопок:', reply_markup=ReplyKeyboardMarkup([
             ['coffee main menu'], ['Pizza main menu']]))
     return 'mode_choise_state'
@@ -31,7 +31,7 @@ def enter_name_and_phone_handler(bot, update, user_data):
 #    print(user_data[user_id])  # сама добаввила
     phone_button = KeyboardButton('Телефон', request_contact=True)
     update.message.reply_text('Пожалуйста, заполните данные о себе:',
-        reply_markup=ReplyKeyboardMarkup([[phone_button], ['Ввести имя'],['Назад']]))
+        reply_markup=ReplyKeyboardMarkup([[phone_button], ['Ввести имя'],['Назад']], resize_keyboard=True))
     return 'enter_phone_choise'
 
 
@@ -41,7 +41,7 @@ def enter_phone_handler(bot, update, user_data):
         return enter_name_and_phone_handler(bot, update, user_data)
     else:
         update.message.reply_text(f'Ваш Телефон - {update.message.contact["phone_number"]}?',
-                                  reply_markup=ReplyKeyboardMarkup([['Yes'], ['No']]))
+                                  reply_markup=ReplyKeyboardMarkup([['Yes','No']], resize_keyboard=True))
         user_data['temp'] = update.message.contact['phone_number']
     return 'phone_choise'
 
@@ -77,7 +77,7 @@ def enter_name_handler(bot, update, user_data):
         return enter_name_and_phone_handler(bot, update, user_data)
     else:
         update.message.reply_text(f'Вас зовут - {update.message.from_user.full_name}?',
-                                  reply_markup=ReplyKeyboardMarkup([['Yes'], ['No']]))
+                                  reply_markup=ReplyKeyboardMarkup([['Yes','No']], resize_keyboard=True))
     return 'name_choise'
 
 
@@ -108,7 +108,7 @@ def check_name_input_handler(bot, update, user_data):
 
 def check_user_data_completeness(bot, update, user_data):
     if 'phone' in user_data.keys() and 'name' in user_data.keys():
-        return 'cafe_send_order'
+        return 'end'
     else:
         return enter_name_and_phone_handler(bot, update, user_data)
 
@@ -193,7 +193,8 @@ conversation = ConversationHandler(
         RegexHandler('^(Завтра)$', Send_tomorrows_menu, pass_user_data=True),
         RegexHandler('^(Послезавтра)$', Send_day_after_tomorrow_menu, pass_user_data=True),
         RegexHandler('^(Через 3 дня)$', Send_in_three_menu, pass_user_data=True),
-        RegexHandler('^(Добавить в корзину)$', add_backery_to_cart_handler, pass_user_data=True)
+        RegexHandler('^(Добавить в корзину)$', add_backery_to_cart_handler, pass_user_data=True),
+        RegexHandler('^(Назад)$', back_cafe_menu, pass_user_data=True)
         ],
 
         'end': [

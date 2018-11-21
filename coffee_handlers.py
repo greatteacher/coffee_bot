@@ -15,8 +15,8 @@ coffee_main_menu_markup = ReplyKeyboardMarkup([['Menu_button'],
 
 bakery_main_menu_markup = ReplyKeyboardMarkup([['Добавить в корзину'],
 												['Вчера','Послезавтра'],
-												['Завтра','Через 3 дня']
-												])
+												['Завтра','Через 3 дня'],
+												['Назад']])
 
 
 from settings import ADMIN_ID, ADMIN_EMAIL
@@ -25,6 +25,7 @@ from utils import send_mail
 
 for sweet in Sweets.query.filter(Sweets.day_week==weekday).all():
 	bakery = sweet.items_name
+amount = 0
 
 def Send_todays_menu(bot, update, user_data):
 	update.message.reply_text('Today is ' + bakery + '! Вы можете Добавить в корзину или посмотреть на будущее, или что уже упустили',
@@ -103,7 +104,7 @@ def checkout_handler(bot, update, user_data):
 	else:
 		for i in sorted(set(cart)):
 			update.message.reply_text(f'{i}x{cart.count(i)}, Цена: tbd\n')
-		update.message.reply_text('Для изменения заказа, нажмите соотвествующую кнопку', 
+		update.message.reply_text( f'{amount}х {bakery}\n Для изменения заказа, нажмите соотвествующую кнопку', 
 			reply_markup = ReplyKeyboardMarkup([['Изменить заказ'],['Назад'],['Сделать заказ']]))
 	return 'cafe_checkout_state'
 
@@ -130,7 +131,7 @@ def remove_from_cart_handler(bot, update, user_data):
 def order_coffee_handler(bot, update, user_data):
 	user_id =  update.message.from_user['id']
 	cart = user_data[user_id]['cart']
-	update.message.reply_text('Ваш заказ:',
+	update.message.reply_text(f'У вас в корзине {amount}х {bakery} ',
 		reply_markup = ReplyKeyboardMarkup([['Назад'],['Отправить заказ']]))
 	for i in sorted(set(cart)):
 		update.message.reply_text(f'{i}x{cart.count(i)}, Цена: tbd\n')
@@ -262,7 +263,9 @@ def back_cafe_menu(bot, update, user_data):
 	return 'cafe_main_menu_state'  #(Menu_button)$','^(Special_offers)$' корзина контактная инфа
 
 def add_backery_to_cart_handler(bot, update, user_data):
-	update.message.reply_text(f'закусочка  {bakery} добавлен в корзину')
+	global amount
+	amount+=1
+	update.message.reply_text(f' добавлено!  в корзине {amount}х {bakery}')
 	return 'sweet_of_day_state' 
 	# coffee_index = update.message.text
 	# user_data[update.message.from_user['id']]['cart'].append(coffee_index)
